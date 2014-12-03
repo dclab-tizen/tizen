@@ -30,12 +30,13 @@
  ******************************************************************************/
 
 #include "sample_util.h"
-#include "tv_device.h"
+#include "tizen_ctrl.h"
 
 #include <stdarg.h>
 #include <stdio.h>
+#include <string.h>
 
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
 	int rc;
 	ithread_t cmdloop_thread;
@@ -46,13 +47,13 @@ int main(int argc, char *argv[])
 #endif
 	int code;
 
-	rc = device_main(argc, argv);
-	if (rc != UPNP_E_SUCCESS) {
+	rc = TizenCtrlPointStart(linux_print, NULL, 0);
+	if (rc != TIZEN_SUCCESS) {
+		SampleUtil_Print("Error starting UPnP TV Control Point\n");
 		return rc;
 	}
-
 	/* start a command loop thread */
-	code = ithread_create(&cmdloop_thread, NULL, TvDeviceCommandLoop, NULL);
+	code = ithread_create(&cmdloop_thread, NULL, TizenCtrlPointCommandLoop, NULL);
 	if (code !=  0) {
 		return UPNP_E_INTERNAL_ERROR;
 	}
@@ -65,8 +66,10 @@ int main(int argc, char *argv[])
 	sigwait(&sigs_to_catch, &sig);
 	SampleUtil_Print("Shutting down on signal %d...\n", sig);
 #endif
-	rc = TvDeviceStop();
+	rc = TizenCtrlPointStop();
 
 	return rc;
+	argc = argc;
+	argv = argv;
 }
 

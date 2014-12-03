@@ -15,7 +15,7 @@ ADD_DEFINITIONS(${rpkgs-glib_CFLAGS})
 
 # Set include directories
 INCLUDE_DIRECTORIES(
-	${CMAKE_CURRENT_SOURCE_DIR}/include
+	${CMAKE_CURRENT_SOURCE_DIR}
 	${CMAKE_CURRENT_SOURCE_DIR}/../upnp/include
 	${rpkgs-dlog_INCLUDE_DIRS}
 	${rpkgs-capi_INCLUDE_DIRS}
@@ -23,10 +23,9 @@ INCLUDE_DIRECTORIES(
 
 # Set sources
 ADD_EXECUTABLE(${PROJECT_NAME}
-	src/common.cpp
-	src/tv_device_main.cpp
-	src/tv_device.cpp
-	src/sample_util.cpp
+	server_main.cpp
+	tizen_ctrl.cpp
+	sample_util.cpp
 )
 
 
